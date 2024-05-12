@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+       body {
+  background-image:url('Computer-26-1600-x-1200.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+
+  color: white;
+}
+#bod{
+  
+  margin: 20%;
+  margin-left: 35%;
+}
+
+#plainText{
+        border-left: 0, black;
+            border-top: 0, black;
+            border-right: 0 black;
+            border-bottom: 2px solid #b3b0b0;
+            outline: none;
+            background: transparent;
+            color:#b3b0b0;
+    }
+#key{
+    border-left: 0, black;
+            border-top: 0, black;
+            border-right: 0 black;
+            border-bottom: 2px solid #b3b0b0;
+            outline: none;
+            background: transparent;
+            color:#b3b0b0;
+           
+}
+button{
+    border-radius: 7%;
+  
+ background-color:rgb(198, 195, 200); 
+  cursor: pointer;
+  background: #b3b0b0;
+  
+}
+
+    </style>
+    <script>
+
+      function encrypt() {
+        let plainText = document.getElementById("plainText").value;
+        let key = document.getElementById("key").value;
+        let encryptedText = "";
+
+        let left = plainText.slice(0, 8);
+        let right = plainText.slice(8);
+        for (let i = 0; i < 2; i++) {
+          let temp = right;
+          right = shiftByOneByte(xor(left, key))
+          left = temp;
+        }
+        encryptedText = left + right;
+        document.getElementById("encryptedText").innerHTML = encryptedText;
+      }
+
+      function shiftByOneByte(text) {
+        return text.slice(1) + text[0];
+      }
+
+      function xor(text, key) {
+        let result = "";
+        for (let i = 0; i < text.length; i++) {
+          result += (text.charCodeAt(i) ^ key.charCodeAt(i % key.length)).toString(2);
+        }
+        
+        return result;
+      }
+
+      function on(x) {
+  x.style.color ="whitesmoke";
+}
+function out(x) {
+  x.style.color = "black";
+}
+    </script>
+  </head>
+  <body>
+    <div class="box">
+    <div id="bod">
+    <h3>Feistel Cipher</h3>
+    Plain Text: <input type="text" id="plainText" size="16" maxlength="16" placeholder="Block size of 16 bits">&nbsp;
+    Key: <input type="text" id="key" size="16" maxlength="16" placeholder="Key size of 16 bits">&nbsp;
+    <button id="save" onmouseover="on(this)" onmouseout="out(this)" onclick="encrypt()">Encrypt</button>
+    <br><br>
+    Encrypted Text: <span id="encryptedText"></span>
+  </div>
+  </div>
+  </body>
+</html>
